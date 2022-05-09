@@ -110,7 +110,21 @@ class DataCleaner:
 
         return self.df
     
-    
+    def bytes_to_megabytes(self, columns: list) -> pd.DataFrame:
+        """
+        Returns a DataFrame where columns value is changed from bytes to megabytes
+        """
+        try:
+            megabyte = 1*10e+5
+            for i in columns:
+                self.df[i] = self.df[i] / megabyte
+                self.df.rename(
+                    columns={i: f'{i[:-7]}(MegaBytes)'}, inplace=True)
+
+        except:
+            print('failed to convert to MB')
+
+        return self.df
     
 
 
