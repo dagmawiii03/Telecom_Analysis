@@ -1,17 +1,21 @@
 import pandas as pd
 import numpy as np
+import sys
+import os
 
 
 class DataCleaner:
     """ 
         Returns a DataCleaner Object with the passed DataFrame Data set as its own DataFrame
           
-   	"""
+   	"""  
+    pd.set_option('max_columns', None)
+    pd.set_option('max_rows', None)
+    df = pd.read_excel('data/challenge_data_source.xlsx')
+
     def __init__(self, df: pd.DataFrame) -> None:
         
-        self.df = df
-
-	    
+        self.df = df  
 
     def drop_unwanted_columns(self, columns: list) -> pd.DataFrame:
         """
@@ -170,16 +174,32 @@ class DataCleaner:
         
         for i in data_types.index:
             if(data_types[i] in optimize):
+
                 if(data_types[i] == 'float64'):
-                    
-                    self.df[i] = pd.to_numeric(
-                        self.df[i], downcast='float')    # downcasting a float column
+                     self.df[i] = pd.to_numeric(
+                        self.df[i], downcast='float')    # optimizing a float column
+                
                 elif(data_types[i] == 'int64'):
-                    
                     self.df[i] = pd.to_numeric(
-                        self.df[i], downcast='unsigned')   # downcasting an integer column
+                        self.df[i], downcast='unsigned')   # optimizing an integer column
 
         return self.df.info()
+
+
+    def save_clean_data(self, name: str):
+        """
+        collective objective DataFrame gets saved as csv file
+        
+        """
+        try:
+            self.df.to_csv(name)
+
+        except:
+            print("saving failed!!!") 
+    
+    
+     
+
     
 
     
