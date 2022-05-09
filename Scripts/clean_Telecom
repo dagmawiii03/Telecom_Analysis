@@ -1,0 +1,74 @@
+import pandas as pd
+import numpy as np
+
+
+class DataCleaner:
+    """ 
+        Returns a DataCleaner Object with the passed DataFrame Data set as its own DataFrame
+        Parameters   
+   	"""
+    def __init__(self, df: pd.DataFrame) -> None:
+        
+        self.df = df
+
+	    
+
+    def drop_unwanted_columns(self, columns: list) -> pd.DataFrame:
+        """
+        Returns a DataFrame where the specified columns in the list are removed
+        Parameters 
+        """
+        self.df.drop(columns, axis=1, inplace=True)
+        return self.df
+
+    def separate_date_time_column(self, column: str, col_prefix_name: str) -> pd.DataFrame:
+        """
+        Returns a DataFrame where the specified columns is split to date and time new columns adding a prefix string to both
+        Parameters
+        
+        """
+        try:
+
+            self.df[f'{col_prefix_name}_date'] = pd.to_datetime(self.df[column]).dt.date
+            self.df[f'{col_prefix_name}_time'] = pd.to_datetime(self.df[column]).dt.time
+
+            return self.df
+
+        except:
+            print("Failed separation!!!")
+
+    def change_columns_type(self, cols: list, data_type: str) -> pd.DataFrame:
+        """
+        Returns a DataFrame where the specified columns data types are changed to the specified data type
+        Parameters
+        
+        """
+        try:
+            for col in cols:
+                self.df[col] = self.df[col].astype(data_type)
+        except:
+            print('Failed in changing type!!!')
+
+        return self.df
+
+    def drop_columns_of_single_vlaues(self, unique_value_counts: pd.DataFrame) -> pd.DataFrame:
+        """
+        Returns a DataFrame where columns with a single value are removed
+        Parameters
+   
+        """
+        drop_single = list(unique_value_counts.loc[unique_value_counts['Unique Value Count'] == 1].index)
+        return self.df.drop(drop_single, axis=1, inplace=True)
+
+    def remove_duplicates(self) -> pd.DataFrame:
+        """
+        Returns a DataFrame where duplicate rows are removed
+        Parameters
+        """
+        remove = self.df[self.df.duplicated()].index
+        return self.df.drop(index=remove, inplace=True)
+    
+
+
+    
+
