@@ -142,6 +142,24 @@ class DataCleaner:
 
         return self.df
     
+    def standardized_column(self, columns: list, new_name: list, func) -> pd.DataFrame:
+        """
+        Returns a DataFrame where specified columns are standardized based on a given function 
+        and given new names 
+        
+        """
+        try:
+            assert(len(columns) == len(new_name))
+            for index, col in enumerate(columns):
+                self.df[col] = func(self.df[col])
+                self.df.rename(columns={col: new_name[index]}, inplace=True)
+
+        except:
+            print('standardization failed!!!')
+
+        return self.df
+    
+    
     
     
 
