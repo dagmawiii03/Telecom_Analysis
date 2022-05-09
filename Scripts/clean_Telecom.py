@@ -5,7 +5,7 @@ import numpy as np
 class DataCleaner:
     """ 
         Returns a DataCleaner Object with the passed DataFrame Data set as its own DataFrame
-        Parameters   
+          
    	"""
     def __init__(self, df: pd.DataFrame) -> None:
         
@@ -16,7 +16,7 @@ class DataCleaner:
     def drop_unwanted_columns(self, columns: list) -> pd.DataFrame:
         """
         Returns a DataFrame where the specified columns in the list are removed
-        Parameters 
+        
         """
         self.df.drop(columns, axis=1, inplace=True)
         return self.df
@@ -24,7 +24,7 @@ class DataCleaner:
     def separate_date_time_column(self, column: str, col_prefix_name: str) -> pd.DataFrame:
         """
         Returns a DataFrame where the specified columns is split to date and time new columns adding a prefix string to both
-        Parameters
+        
         
         """
         try:
@@ -40,7 +40,7 @@ class DataCleaner:
     def change_columns_type(self, cols: list, data_type: str) -> pd.DataFrame:
         """
         Returns a DataFrame where the specified columns data types are changed to the specified data type
-        Parameters
+        
         
         """
         try:
@@ -54,7 +54,7 @@ class DataCleaner:
     def drop_columns_of_single_vlaues(self, unique_value_counts: pd.DataFrame) -> pd.DataFrame:
         """
         Returns a DataFrame where columns with a single value are removed
-        Parameters
+        
    
         """
         drop_single = list(unique_value_counts.loc[unique_value_counts['Unique Value Count'] == 1].index)
@@ -63,7 +63,7 @@ class DataCleaner:
     def remove_duplicates(self) -> pd.DataFrame:
         """
         Returns a DataFrame where duplicate rows are removed
-        Parameters
+        
         """
         remove = self.df[self.df.duplicated()].index
         return self.df.drop(index=remove, inplace=True)
@@ -72,7 +72,7 @@ class DataCleaner:
         """
         Returns a DataFrame where numeric columns are filled with either mean (for acceptbale skewness 
         range i.e. almost normal distr) and median (for beyond acceptable range) based on their 
-        skewness Parameters
+        skewness 
         
         """
         df_skew_data = self.df[missing_columns]
@@ -90,7 +90,7 @@ class DataCleaner:
     def fill_non_numeric_values(self, missing_columns: list, fwd_fill: bool = True, bwd_fill: bool = False) -> pd.DataFrame:
         """
         Returns a DataFrame where non-numeric columns are filled with forward or backward fill
-        Parameters
+        
         
         """
         for i in missing_columns:
@@ -159,7 +159,29 @@ class DataCleaner:
 
         return self.df
     
+    def optimize_data(self) -> pd.DataFrame:
+        """
+        Returns the DataFrames information after all column data types are optimized 
+        (to minimize in data type without affecting system behaviour in required 
+        tolerance)
+        """
+        data_types = self.df.dtypes
+        optimize = ['float64', 'int64']
+        
+        for i in data_types.index:
+            if(data_types[i] in optimize):
+                if(data_types[i] == 'float64'):
+                    
+                    self.df[i] = pd.to_numeric(
+                        self.df[i], downcast='float')    # downcasting a float column
+                elif(data_types[i] == 'int64'):
+                    
+                    self.df[i] = pd.to_numeric(
+                        self.df[i], downcast='unsigned')   # downcasting an integer column
+
+        return self.df.info()
     
+
     
     
 
