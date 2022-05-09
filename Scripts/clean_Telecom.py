@@ -67,6 +67,50 @@ class DataCleaner:
         """
         remove = self.df[self.df.duplicated()].index
         return self.df.drop(index=remove, inplace=True)
+
+    def fill_numeric_values(self, missing_columns: list, acceptable_skewness: float = 2.0) -> pd.DataFrame:
+        """
+        Returns a DataFrame where numeric columns are filled with either mean (for acceptbale skewness 
+        range i.e. almost normal distr) and median (for beyond acceptable range) based on their 
+        skewness Parameters
+        
+        """
+        df_skew_data = self.df[missing_columns]
+        df_skewness = df_skew_data.skew(axis=0, skipna=True)
+        for i in df_skewness.index:
+            if(df_skewness[i] < acceptable_skewness and df_skewness[i] > (acceptable_skewness * -1)):
+                val = self.df[i].mean()
+                self.df[i].fillna(val, inplace=True)
+            else:
+                val= self.df[i].median()
+                self.df[i].fillna(val, inplace=True)
+
+        return self.df	
+    
+    def fill_non_numeric_values(self, missing_columns: list, fwd_fill: bool = True, bwd_fill: bool = False) -> pd.DataFrame:
+        """
+        Returns a DataFrame where non-numeric columns are filled with forward or backward fill
+        Parameters
+        
+        """
+        for i in missing_columns:
+            if(fwd_fill == True and bwd_fill == True):
+                self.df[i].fillna(method='ffill', inplace=True)
+                self.df[i].fillna(method='bfill', inplace=True)
+
+            elif(fwd_fill == True and bwd_fill == False):
+                self.df[i].fillna(method='ffill', inplace=True)
+
+            elif(fwd_fill == False and bwd_fill == True):
+                self.df[i].fillna(method='bfill', inplace=True)
+
+            else:
+                self.df[i].fillna(method='ffill', inplace=True)
+                self.df[i].fillna(method='bfill', inplace=True)
+
+        return self.df
+    
+    
     
 
 
