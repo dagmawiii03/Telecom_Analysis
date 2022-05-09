@@ -125,6 +125,24 @@ class DataCleaner:
             print('failed to convert to MB')
 
         return self.df
+
+    def data_outlier(self, columns: list) -> pd.DataFrame:
+        
+        """
+        Returns a DataFrame where outlier of the specified columns is fixed
+        Parameters for column list
+
+        """
+        try:
+            for i in columns:
+                self.df[i] = np.where(self.df[i] > self.df[i].quantile(
+                    0.95), self.df[i].median(), self.df[i])
+        except:
+            print("outliers can't be fixed")
+
+        return self.df
+    
+    
     
 
 
