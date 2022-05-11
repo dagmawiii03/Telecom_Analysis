@@ -9,9 +9,6 @@ class DataCleaner:
         Returns a DataCleaner Object with the passed DataFrame Data set as its own DataFrame
           
    	"""  
-    pd.set_option('max_columns', None)
-    pd.set_option('max_rows', None)
-    df = pd.read_excel('data/challenge_data_source.xlsx')
 
     def __init__(self, df: pd.DataFrame) -> None:
         
@@ -24,6 +21,7 @@ class DataCleaner:
         """
         self.df.drop(columns, axis=1, inplace=True)
         return self.df
+
 
     def separate_date_time_column(self, column: str, col_prefix_name: str) -> pd.DataFrame:
         """
@@ -40,6 +38,21 @@ class DataCleaner:
 
         except:
             print("Failed separation!!!")
+
+
+    def change_columns_type_to(self, cols: list, data_type: str) -> pd.DataFrame:
+        """
+        Returns a DataFrame where the specified columns data types are changed to the specified 
+        data type
+        """
+        try:
+            for col in cols:
+                self.df[col] = self.df[col].astype(data_type)
+        except:
+            print('Failed to change columns type')
+
+        return self.df
+
 
     def change_columns_type(self, cols: list, data_type: str) -> pd.DataFrame:
         """
@@ -64,6 +77,7 @@ class DataCleaner:
         drop_single = list(unique_value_counts.loc[unique_value_counts['Unique Value Count'] == 1].index)
         return self.df.drop(drop_single, axis=1, inplace=True)
 
+
     def remove_duplicates(self) -> pd.DataFrame:
         """
         Returns a DataFrame where duplicate rows are removed
@@ -71,6 +85,7 @@ class DataCleaner:
         """
         remove = self.df[self.df.duplicated()].index
         return self.df.drop(index=remove, inplace=True)
+
 
     def fill_numeric_values(self, missing_columns: list, acceptable_skewness: float = 2.0) -> pd.DataFrame:
         """
@@ -90,6 +105,7 @@ class DataCleaner:
                 self.df[i].fillna(val, inplace=True)
 
         return self.df	
+
     
     def fill_non_numeric_values(self, missing_columns: list, fwd_fill: bool = True, bwd_fill: bool = False) -> pd.DataFrame:
         """
@@ -113,6 +129,7 @@ class DataCleaner:
                 self.df[i].fillna(method='bfill', inplace=True)
 
         return self.df
+
     
     def bytes_to_megabytes(self, columns: list) -> pd.DataFrame:
         """
@@ -130,6 +147,7 @@ class DataCleaner:
 
         return self.df
 
+
     def data_outlier(self, columns: list) -> pd.DataFrame:
         
         """
@@ -145,6 +163,20 @@ class DataCleaner:
             print("outliers can't be fixed")
 
         return self.df
+
+    def create_new_columns_from(self, new_col_name: str, col1: str, col2: str, func) -> pd.DataFrame:
+        """
+        Returns a DataFrame where a new column is created using a function on two specified columns
+        Parameters
+        
+        """
+        try:
+            self.df[new_col_name] = func(self.df[col1], self.df[col2])
+        except:
+            print("failed to create new column with the specified function")
+
+        return self.df
+
     
     def standardized_column(self, columns: list, new_name: list, func) -> pd.DataFrame:
         """
@@ -162,6 +194,7 @@ class DataCleaner:
             print('standardization failed!!!')
 
         return self.df
+
     
     def optimize_data(self) -> pd.DataFrame:
         """
