@@ -49,3 +49,14 @@ def application():
 
     st.header("Top 3 Most Used Applications")
     st.image('data/top10apps.png')
+
+    st.subheader("Top 10 users based on session count")
+    st.dataframe(df_session)
+    st.bar_chart(df_session['Dur. (ms)'])
+
+    st.subheader("Top 10 users based on download and upload count")
+    st.dataframe(df_DLUL)
+    st.bar_chart(df_DLUL['Total UL and DL'])
+
+    st.header("3 groups k-means clustering")
+    st.image('data/engclusters.png')
