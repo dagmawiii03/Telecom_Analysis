@@ -26,3 +26,16 @@ def application():
     st.subheader("TCP")
     st.dataframe(df_tcp)
     st.bar_chart(df_tcp['Average TCP'])
+
+    st.header("Most Frequenct Users")
+    st.subheader('frquent Average Throughput')
+    st.dataframe(df_frqThr)
+    st.bar_chart(df_frqThr['0'])
+
+    st.subheader("frquent Round Trip Time")
+    st.dataframe(df_frqrtt)
+    st.bar_chart(df_frqrtt['0'])
+
+    st.subheader("frquent TCP")
+    st.dataframe(df_frqtcp)
+    st.bar_chart(df_frqtcp['0'])
