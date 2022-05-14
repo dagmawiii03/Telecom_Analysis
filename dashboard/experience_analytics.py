@@ -22,3 +22,7 @@ def application():
     st.subheader("Round Trip Time")
     st.dataframe(df_rtt)
     st.bar_chart(df_rtt['Average RTT'])
+
+    st.subheader("TCP")
+    st.dataframe(df_tcp)
+    st.bar_chart(df_tcp['Average TCP'])
