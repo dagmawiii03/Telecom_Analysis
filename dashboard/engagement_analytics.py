@@ -26,3 +26,23 @@ def application():
     st.subheader("Game")
     st.dataframe(df_game)
     st.bar_chart(df_game.Gaming_Total_Data)
+
+    st.subheader("Google")
+    st.dataframe(df_google)
+    st.bar_chart(df_google.Google_Total_Data)
+
+    st.subheader("Netflix App")
+    st.dataframe(df_netflix)
+    st.bar_chart(df_netflix.Netflix_Total_Data)
+
+    st.subheader("Other App")
+    st.dataframe(df_otherAct)
+    st.bar_chart(df_otherAct.Other_Total_Data)
+
+    st.subheader("Social Media App")
+    st.dataframe(df_social)
+    st.bar_chart(df_social.Social_Media_Total_Data)
+
+    st.subheader("Youtube App")
+    st.dataframe(df_youtube)
+    st.bar_chart(df_youtube.Youtube_Total_Data)
