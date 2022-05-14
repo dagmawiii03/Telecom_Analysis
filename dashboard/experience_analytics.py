@@ -39,3 +39,6 @@ def application():
     st.subheader("frquent TCP")
     st.dataframe(df_frqtcp)
     st.bar_chart(df_frqtcp['0'])
+
+    st.header("Cluster with 2 group classification")
+    st.image('data/clusterExp.png')
