@@ -22,3 +22,7 @@ def application():
     st.subheader("Email App")
     st.dataframe(df_email)
     st.bar_chart(df_email.Email_Total_Data)
+
+    st.subheader("Game App")
+    st.dataframe(df_game)
+    st.bar_chart(df_game.Gaming_Total_Data)
