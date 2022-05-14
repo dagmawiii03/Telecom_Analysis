@@ -19,7 +19,7 @@ def application():
     df_DLUL = pd.read_csv('data/top10_DLUL_users.csv')
 
     st.header("Top 10 Users Engaged Per Each Application")
-    st.subheader("Email App")
+    st.subheader("Email ")
     st.dataframe(df_email)
     st.bar_chart(df_email.Email_Total_Data)
 
@@ -31,18 +31,21 @@ def application():
     st.dataframe(df_google)
     st.bar_chart(df_google.Google_Total_Data)
 
-    st.subheader("Netflix App")
+    st.subheader("Netflix ")
     st.dataframe(df_netflix)
     st.bar_chart(df_netflix.Netflix_Total_Data)
 
-    st.subheader("Other App")
+    st.subheader("Other ")
     st.dataframe(df_otherAct)
     st.bar_chart(df_otherAct.Other_Total_Data)
 
-    st.subheader("Social Media App")
+    st.subheader("Social Media ")
     st.dataframe(df_social)
     st.bar_chart(df_social.Social_Media_Total_Data)
 
-    st.subheader("Youtube App")
+    st.subheader("Youtube ")
     st.dataframe(df_youtube)
     st.bar_chart(df_youtube.Youtube_Total_Data)
+
+    st.header("Top 3 Most Used Applications")
+    st.image('data/top10apps.png')
