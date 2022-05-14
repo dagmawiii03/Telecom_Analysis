@@ -18,3 +18,7 @@ def application():
     st.subheader("Average Throughput")
     st.dataframe(df_avgthr)
     st.bar_chart(df_avgthr['Average throughput'])
+
+    st.subheader("Round Trip Time")
+    st.dataframe(df_rtt)
+    st.bar_chart(df_rtt['Average RTT'])
